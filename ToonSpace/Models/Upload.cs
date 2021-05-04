@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using ToonSpace.Enums;
 
 namespace ToonSpace.Models
 {
@@ -15,5 +17,8 @@ namespace ToonSpace.Models
         public byte[] Image { get; set; }
         public string ContentType { get; set; }
         public Genre Genre { get; set; }
+
+        [Display(Name = "Select Genre")]
+        public GenreName GenreName { get; set; }
     }
 }
