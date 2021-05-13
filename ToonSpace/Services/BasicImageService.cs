@@ -8,16 +8,17 @@ using System.Threading.Tasks;
 
 namespace ToonSpace.Services
 {
-    public class BasicImageService
+    public class BasicImageService : IImageService
     {
-        public string DecodeImage(byte[] image, string contentType)
+        public async Task<byte[]> EncodeImageAsync(IFormFile image)
         {
             if (image == null)
             {
                 return null;
             }
-            var convertedImage = Convert.ToBase64String(image);
-            return $"data:{contentType};base64,{convertedImage}";
+            using var ms = new MemoryStream();
+            await image.CopyToAsync(ms);
+            return ms.ToArray();
         }
 
         public async Task<byte[]> EncodeImageURLAsync(string imageURL)
@@ -32,19 +33,16 @@ namespace ToonSpace.Services
             await stream.CopyToAsync(ms);
 
             return ms.ToArray();
-
         }
 
-        public async Task<byte[]> EncodeImageAsync(IFormFile image)
+        public string DecodeImage(byte[] image, string contentType)
         {
             if (image == null)
             {
                 return null;
             }
-            using var ms = new MemoryStream();
-            await image.CopyToAsync(ms);
-            return ms.ToArray();
-
+            var convertedImage = Convert.ToBase64String(image);
+            return $"data:{contentType};base64,{convertedImage}";
         }
 
         public string RecordContentType(IFormFile image)
@@ -54,6 +52,11 @@ namespace ToonSpace.Services
                 return null;
             }
             return image.ContentType;
+        }
+
+        public string ContentType(IFormFile poster)
+        {
+            throw new NotImplementedException();
         }
     }
 }
