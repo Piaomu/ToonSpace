@@ -1,4 +1,6 @@
 ﻿@model ToonSpace.Models.Upload
+@using ToonSpace.Services
+@inject IImageService _imageService
 
 @{
     ViewData["Title"] = "Details";
@@ -9,6 +11,13 @@
 <div>
     <h4>Upload</h4>
     <hr />
+
+    <row class="card">
+        <div class="col-8">
+            <img id="Profile" class="img-fluid" src="@_imageService.DecodeImage(Model.Image, Model.ContentType)" />
+        </div>
+    </row>
+
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Title)

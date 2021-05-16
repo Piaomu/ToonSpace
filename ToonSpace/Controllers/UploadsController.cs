@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ToonSpace.Data;
 using ToonSpace.Models;
 using ToonSpace.Services;
+
 
 namespace ToonSpace.Controllers
 {
@@ -60,10 +62,15 @@ namespace ToonSpace.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,GenreId,Title,Artist,Created,Image,ContentType")] Upload upload)
+        public async Task<IActionResult> Create([Bind("Id,GenreId,Title,Artist,Created")] Upload upload, IFormFile Image)
         {
             if (ModelState.IsValid)
             {
+
+                upload.ContentType = _imageService.ContentType(Image);
+                upload.Image = await _imageService.EncodeImageAsync(Image);
+
+
                 _context.Add(upload);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

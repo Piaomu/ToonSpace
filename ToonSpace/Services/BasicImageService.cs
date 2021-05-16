@@ -45,18 +45,13 @@ namespace ToonSpace.Services
             return $"data:{contentType};base64,{convertedImage}";
         }
 
-        public string RecordContentType(IFormFile image)
+        public string ContentType(IFormFile image)
         {
             if (image == null)
             {
                 return null;
             }
             return image.ContentType;
-        }
-
-        public string ContentType(IFormFile poster)
-        {
-            throw new NotImplementedException();
         }
     }
 }
