@@ -20,5 +20,7 @@ namespace ToonSpace.Models
 
         [Display(Name = "Select Genre")]
         public GenreName GenreName { get; set; }
+
+        public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
     }
 }
