@@ -17,6 +17,5 @@ namespace ToonSpace.Models
         public virtual Upload Upload { get; set; }
         //Still need to make the ToonUser Model
         public virtual ToonUser ToonUser {get; set;}
-        public virtual ToonUser ToonUser { get; set; }
     }
 }
