@@ -5,17 +5,25 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using ToonSpace.Models;
+using ToonSpace.Data;
 
 namespace ToonSpace.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ToonUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,
+                              ApplicationDbContext context,
+                              UserManager<ToonUser> userManager)
         {
             _logger = logger;
+            _context = context;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
