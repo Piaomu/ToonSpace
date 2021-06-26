@@ -33,6 +33,8 @@ namespace ToonSpace.Models
         [DisplayName("Has Been Viewed")]
         public bool Viewed { get; set; }
 
+        public long Likes { get; set; }
+
 
         //Navigational properties
         public virtual Upload Upload { get; set; }

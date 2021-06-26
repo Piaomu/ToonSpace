@@ -23,6 +23,10 @@ namespace ToonSpace.Models
         public string Artist { get; set; }
         public DateTime Created { get; set; }
 
+        public int ViewCount { get; set; }
+
+        public bool Visible { get; set; }
+
         [Required]
         public byte[] Image { get; set; }
         public string ContentType { get; set; }
