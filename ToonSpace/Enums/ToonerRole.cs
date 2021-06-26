@@ -9,6 +9,7 @@ namespace ToonSpace.Enums
     public enum ToonerRole
     {
         Administrator,
-        Moderator
+        Moderator,
+        Artist,
     }
 }

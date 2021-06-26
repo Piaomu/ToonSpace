@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -26,6 +27,7 @@ namespace ToonSpace.Models
         public DateTime LastLogin { get; set; }
         public string FollowerId { get; set; }
         public string FollowingId { get; set; }
+        public IFormFile ImageFile { get; set; }
         public byte[] ImageData { get; set; }
         public string ContentType { get; set; }
         [NotMapped]

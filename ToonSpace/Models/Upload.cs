@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -26,6 +27,7 @@ namespace ToonSpace.Models
         public int ViewCount { get; set; }
 
         public bool Visible { get; set; }
+        public IFormFile ImageFile { get; set; }
 
         [Required]
         public byte[] Image { get; set; }
