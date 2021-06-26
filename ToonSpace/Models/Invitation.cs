@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using ToonSpace.Enums;
 
 namespace ToonSpace.Models
 {
-    public class Invite
+    public class Invitation
     {
         public int Id { get; set; }
 
@@ -22,5 +23,6 @@ namespace ToonSpace.Models
         [DisplayName("Last Name")]
         public string InviteeLastName { get; set; }
         public bool IsValid { get; set; }
+        public InvitationStatus Status { get; set; }
     }
 }

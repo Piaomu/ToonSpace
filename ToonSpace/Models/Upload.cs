@@ -34,7 +34,9 @@ namespace ToonSpace.Models
 
         [Display(Name = "Select Genre")]
         public GenreName GenreName { get; set; }
+        public MediaStatus MediaStatus { get; set; }
 
         public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
+        public ICollection<UserLike> Likes { get; set; } = new HashSet<UserLike>();
     }
 }
