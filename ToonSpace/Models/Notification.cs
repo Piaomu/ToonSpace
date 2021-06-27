@@ -30,15 +30,15 @@ namespace ToonSpace.Models
         [DisplayName("Sender")]
         public string SenderId { get; set; }
 
-        [DisplayName("Has Been Viewed")]
+        [DisplayName("Seen")]
         public bool Viewed { get; set; }
-
-        public long Likes { get; set; }
 
 
         //Navigational properties
         public virtual Upload Upload { get; set; }
         public virtual ToonUser Recipient { get; set; }
         public virtual ToonUser Sender { get; set; }
+        public virtual UserLike Like { get; set; }
+        public virtual Comment Comment { get; set; }
     }
 }

@@ -40,10 +40,10 @@ namespace ToonSpace.Models
         }
 
         //Navigational properties
-        public ICollection<ToonUser> Followers { get; set; } = new HashSet<ToonUser>();
-        public ICollection<ToonUser> Following { get; set; } = new HashSet<ToonUser>();
-        public ICollection<UserRelations> Relations { get; set; } = new HashSet<UserRelations>();
-        public ICollection<Upload> Uploads { get; set; } = new HashSet<Upload>();
-
+        public virtual ICollection<ToonUser> Followers { get; set; } = new HashSet<ToonUser>();
+        public virtual ICollection<ToonUser> Following { get; set; } = new HashSet<ToonUser>();
+        public virtual ICollection<UserRelations> Relations { get; set; } = new HashSet<UserRelations>();
+        public virtual ICollection<Upload> Uploads { get; set; } = new HashSet<Upload>();
+        public virtual ICollection<UserLike> Likes { get; set; } = new HashSet<UserLike>();
     }
 }

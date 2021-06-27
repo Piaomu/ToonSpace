@@ -12,5 +12,8 @@ namespace ToonSpace.Models
         public bool AcceptInvitation { get; set; }
         [Display(Name = "Decline Invitation")]
         public bool RejectInvitation { get; set; }
+
+        //Navigational Properties
+        public virtual Invitation Invitation { get; set; }
     }
 }

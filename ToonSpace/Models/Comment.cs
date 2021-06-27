@@ -18,9 +18,12 @@ namespace ToonSpace.Models
         public string Body { get; set; }
         public DateTime Created { get; set; }
         public DateTime? Moderated { get; set; }
-        public virtual Upload Upload { get; set; }
+
 
         // Navigational properties
         public virtual ToonUser ToonUser {get; set;}
+        public virtual Upload Upload { get; set; }
+        public virtual ICollection<UserLike> Likes { get; set; } = new HashSet<UserLike>();
+
     }
 }

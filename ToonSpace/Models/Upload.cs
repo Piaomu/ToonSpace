@@ -21,7 +21,8 @@ namespace ToonSpace.Models
 
         [Required]
         public string Description { get; set; }
-        public string Artist { get; set; }
+        [Display(Name = "Artist")]
+        public string ArtistId { get; set; }
         public DateTime Created { get; set; }
 
         public int ViewCount { get; set; }
@@ -32,13 +33,16 @@ namespace ToonSpace.Models
         [Required]
         public byte[] Image { get; set; }
         public string ContentType { get; set; }
-        public Genre Genre { get; set; }
 
         [Display(Name = "Select Genre")]
         public GenreName GenreName { get; set; }
         public MediaStatus MediaStatus { get; set; }
 
-        public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
-        public ICollection<UserLike> Likes { get; set; } = new HashSet<UserLike>();
+        //Navigational Properties
+        public virtual ToonUser Artist { get; set; }
+        public virtual Genre Genre { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
+        public virtual ICollection<UserLike> Likes { get; set; } = new HashSet<UserLike>();
+        public virtual ICollection<Notification> Notifications { get; set; } = new HashSet<Notification>();
     }
 }
