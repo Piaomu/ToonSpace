@@ -28,7 +28,6 @@ namespace ToonSpace.Models
         public int ViewCount { get; set; }
 
         public bool Visible { get; set; }
-        public IFormFile ImageFile { get; set; }
 
         [Required]
         public byte[] Image { get; set; }

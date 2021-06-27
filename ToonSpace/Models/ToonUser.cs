@@ -27,7 +27,6 @@ namespace ToonSpace.Models
         public DateTime LastLogin { get; set; }
         public string FollowerId { get; set; }
         public string FollowingId { get; set; }
-        public IFormFile ImageFile { get; set; }
         public byte[] ImageData { get; set; }
         public string ContentType { get; set; }
         [NotMapped]
@@ -42,7 +41,6 @@ namespace ToonSpace.Models
         //Navigational properties
         public virtual ICollection<ToonUser> Followers { get; set; } = new HashSet<ToonUser>();
         public virtual ICollection<ToonUser> Following { get; set; } = new HashSet<ToonUser>();
-        public virtual ICollection<UserRelations> Relations { get; set; } = new HashSet<UserRelations>();
         public virtual ICollection<Upload> Uploads { get; set; } = new HashSet<Upload>();
         public virtual ICollection<UserLike> Likes { get; set; } = new HashSet<UserLike>();
     }

@@ -11,7 +11,6 @@ namespace ToonSpace.Models
         public int Id { get; set; }
 
         public string Name { get; set; }
-        public IFormFile ImageFile { get; set; }
         public byte[] GenreImage { get; set; }
         public string ContentType { get; set; }
         public virtual ICollection<Upload> Upload { get; set; } = new HashSet<Upload>();
