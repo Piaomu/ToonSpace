@@ -7,6 +7,8 @@ namespace ToonSpace.Models.ViewModels
 {
     public class IndexFeedViewModel
     {
-        public List<Upload> AllUploads { get; set; }
+       public List<ToonUser> Followers { get; set; }
+       public List<ToonUser> Following { get; set; }
+       public List<Upload> FollowingUploads { get; set; }
     }
 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using ToonSpace.Models;
 using ToonSpace.Data;
+using ToonSpace.Models.ViewModels;
 
 namespace ToonSpace.Controllers
 {
@@ -28,6 +29,11 @@ namespace ToonSpace.Controllers
 
         public IActionResult Index()
         {
+            //IndexFeedViewModel model = new()
+            //{
+
+            //};
+
             return View();
         }
 

@@ -6,6 +6,9 @@
     <title>@ViewData["Title"] - ToonSpace</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
     <header>
@@ -47,8 +50,13 @@
             &copy; 2021 - ToonSpace - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    <!--Jquery-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!--Bootstrap 4-->
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!--Popper-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
