@@ -16,5 +16,7 @@ namespace ToonSpace.Data
         public DbSet<ToonSpace.Models.Genre> Genre { get; set; }
         public DbSet<ToonSpace.Models.Upload> Upload { get; set; }
         public DbSet<ToonSpace.Models.Comment> Comment { get; set; }
+        public DbSet<ToonSpace.Models.Notification> Notification { get; set; }
+        public DbSet<ToonSpace.Models.Invitation> Invitation { get; set; }
     }
 }
