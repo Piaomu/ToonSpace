@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using ToonSpace.Data;
 using ToonSpace.Models;
 using ToonSpace.Services;
+using ToonSpace.Services.Interfaces;
 
 namespace ToonSpace
 {
@@ -40,9 +41,12 @@ namespace ToonSpace
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
+            services.AddScoped<IRelationService, RelationService>();
+            services.AddScoped<IImageService, BasicImageService>();
+
             services.AddMvc();
 
-            services.AddScoped<IImageService, BasicImageService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using ToonSpace.Models;
 using ToonSpace.Data;
 using ToonSpace.Models.ViewModels;
+using ToonSpace.Services.Interfaces;
 
 namespace ToonSpace.Controllers
 {
@@ -17,24 +18,31 @@ namespace ToonSpace.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ToonUser> _userManager;
+        private readonly IRelationService _relationService;
 
         public HomeController(ILogger<HomeController> logger,
                               ApplicationDbContext context,
-                              UserManager<ToonUser> userManager)
+                              UserManager<ToonUser> userManager,
+                              IRelationService relationService)
         {
             _logger = logger;
             _context = context;
             _userManager = userManager;
+            _relationService = relationService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            //IndexFeedViewModel model = new()
-            //{
+            var userId = _userManager.GetUserId(User);
 
-            //};
+            IndexFeedViewModel model = new()
+            {
+                Followers = await _relationService.GetFollowersAsync(userId),
+                Following = await _relationService.GetFollowingAsync(userId),
+                User = await _userManager.GetUserAsync(User)
+            };
 
-            return View();
+            return View(model);
         }
 
         public IActionResult Privacy()

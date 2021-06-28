@@ -18,10 +18,6 @@ namespace ToonSpace.Services
         {
             _context = context;
         }
-        public Task<bool> BlockUser(string myId, string toonUserId)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<bool> FollowUser(string myId, string toonUserId)
         {
@@ -62,14 +58,18 @@ namespace ToonSpace.Services
             }
         }
 
-        public Task<List<ToonUser>> GetFollowersAsync(string myId, string toonUserIds)
+        public async Task<List<ToonUser>> GetFollowersAsync(string myId)
         {
-            throw new NotImplementedException();
+            ToonUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == myId);
+
+            return user.Followers.ToList();
         }
 
-        public Task<List<ToonUser>> GetFollowingAsync(string myId, string toonUserIds)
+        public async Task<List<ToonUser>> GetFollowingAsync(string myId)
         {
-            throw new NotImplementedException();
+            ToonUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == myId);
+
+            return user.Following.ToList();
         }
 
         public async Task UnfollowUser(string myId, string toonUserId)

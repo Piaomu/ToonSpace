@@ -10,5 +10,6 @@ namespace ToonSpace.Models.ViewModels
        public List<ToonUser> Followers { get; set; }
        public List<ToonUser> Following { get; set; }
        public List<Upload> FollowingUploads { get; set; }
+       public ToonUser User { get; set; }
     }
 }

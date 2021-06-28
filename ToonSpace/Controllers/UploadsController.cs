@@ -7,16 +7,24 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ToonSpace.Data;
 using ToonSpace.Models;
+using ToonSpace.Services;
+using ToonSpace.Services.Interfaces;
 
 namespace ToonSpace.Controllers
 {
     public class UploadsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IImageService _imageService;
+        private readonly IRelationService _relationService;
 
-        public UploadsController(ApplicationDbContext context)
+        public UploadsController(ApplicationDbContext context,
+                                 IImageService imageService,
+                                 IRelationService relationService)
         {
             _context = context;
+            _imageService = imageService;
+            _relationService = relationService;
         }
 
         // GET: Uploads
