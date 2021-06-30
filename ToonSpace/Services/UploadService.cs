@@ -35,6 +35,51 @@ namespace ToonSpace.Services
             }
         }
 
+        public async Task<List<Upload>> GetUploadsFromFollowing(string artistId)
+        {
+            try
+            {
+                ToonUser artist = await _context.Users.FirstOrDefaultAsync(u => u.Id == artistId);
+                List<ToonUser> following = artist.Following.ToList();
+                List<Upload> followingUploads = new();
+
+                foreach (ToonUser user in following)
+                {
+                    followingUploads.AddRange(user.Uploads);
+                }
+
+                return followingUploads;
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error getting your following's uploads - {ex.Message}");
+                throw;
+            }
+
+        }
+
+        public async Task<List<Upload>> GetUploadsFromFollowers(string artistId)
+        {
+            try
+            {
+                ToonUser artist = await _context.Users.FirstOrDefaultAsync(u => u.Id == artistId);
+                List<ToonUser> followers = artist.Followers.ToList();
+                List<Upload> followerUploads = new();
+
+                foreach (ToonUser user in followers)
+                {
+                    followerUploads.AddRange(user.Uploads);
+                }
+
+                return followerUploads;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error getting your followers' uploads - {ex.Message}");
+                throw;
+            }
+        }
+
         public async Task<List<Upload>> GetAllUploadsByGenre(int genreId)
         {
             try 
@@ -93,9 +138,20 @@ namespace ToonSpace.Services
 
         }
 
-        public Task<List<Upload>> GetMostPopularUploadsByGenre(string genre)
+        public async Task<List<Upload>> GetMostPopularUploadsByGenre(int genreId)
         {
-            throw new NotImplementedException();
+            try 
+            {
+            List<Upload> uploads = await GetAllUploadsByGenre(genreId);
+            var topTen = uploads.OrderByDescending(u => u.Likes.Count).Take(10).ToList();
+
+            return topTen;
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error getting top uploads by Genre - {ex.Message}");
+                throw;
+            }
         }
 
         public Task<List<Upload>> GetMostPopularUploadsByMonth(string artistId)
@@ -108,24 +164,53 @@ namespace ToonSpace.Services
             throw new NotImplementedException();
         }
 
-        public Task<Upload> GetNewestUpload(string artistId)
+        public async Task<List<Upload>> GetNewestUpload(string artistId)
         {
-            throw new NotImplementedException();
+            try 
+            {
+            ToonUser artist = await _context.Users.FirstOrDefaultAsync(u => u.Id == artistId);
+            List<Upload> upload = artist.Uploads.OrderByDescending(u => u.Created).Take(1).ToList();
+
+            return upload;
+            } catch(Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error getting most recent upload - {ex.Message}");
+                throw;
+            }
         }
 
-        public Task<List<Upload>> GetNewestUploads(string artistId)
+        public async Task<List<Upload>> GetNewestUploads(string artistId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ToonUser artist = await _context.Users.FirstOrDefaultAsync(u => u.Id == artistId);
+                List<Upload> upload = artist.Uploads.OrderByDescending(u => u.Created).Take(5).ToList();
+
+                return upload;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error getting most recent uploads - {ex.Message}");
+                throw;
+            }
         }
 
-        public Task<bool> LikeUpload(string myId, int uploadId)
+        public async Task<bool> LikeUpload(string myId, int uploadId)
         {
-            throw new NotImplementedException();
+            ToonUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == myId);
+            Upload upload = await _context.Upload.FirstOrDefaultAsync(u => u.Id == uploadId);
+
         }
 
         public Task UnLikeUpload(string myId, int uploadId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<bool> DoesUserAlreadyLike(string userId, int userLikeId)
+        {
+            ToonUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            //UserLike like = await _context.Users.FirstOrDefaultAsync(u => u.Likes.FirstOrDefault(l => l.Id == userLikeId));
         }
     }
 }
