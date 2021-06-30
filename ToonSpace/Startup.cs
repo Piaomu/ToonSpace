@@ -42,6 +42,7 @@ namespace ToonSpace
                 .AddDefaultTokenProviders();
 
             services.AddScoped<IRelationService, RelationService>();
+            services.AddScoped<IUploadService, UploadService>();
             services.AddScoped<IImageService, BasicImageService>();
 
             services.AddMvc();
