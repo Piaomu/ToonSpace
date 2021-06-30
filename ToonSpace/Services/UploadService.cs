@@ -154,11 +154,13 @@ namespace ToonSpace.Services
             }
         }
 
+        //Implement this if necessary
         public Task<List<Upload>> GetMostPopularUploadsByMonth(string artistId)
         {
             throw new NotImplementedException();
         }
 
+        //Implement this if necessary
         public Task<List<Upload>> GetMostPopularUploadsByYear(string artistId)
         {
             throw new NotImplementedException();
@@ -226,9 +228,23 @@ namespace ToonSpace.Services
 
         }
 
-        public Task UnLikeUpload(string myId, int uploadId)
+        public async Task UnLikeUpload(string myId, int uploadId)
         {
-            throw new NotImplementedException();
+            try 
+            { 
+            ToonUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == myId);
+            Upload upload = await _context.Upload.FirstOrDefaultAsync(u => u.Id == uploadId);
+            UserLike like = upload.Likes.FirstOrDefault(l => l.ToonUser.Id == user.Id);
+
+            upload.Likes.Remove(like);
+            user.Likes.Remove(like);
+            await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error unliking media - {ex.Message}");
+                throw;
+            }
         }
 
         public async Task<bool> DoesUserAlreadyLike(string userId, int userLikeId)
