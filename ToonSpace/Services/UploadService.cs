@@ -45,7 +45,7 @@ namespace ToonSpace.Services
 
                 foreach (ToonUser user in following)
                 {
-                    followingUploads.AddRange(user.Uploads);
+                    followingUploads?.AddRange(user.Uploads);
                 }
 
                 return followingUploads;
@@ -68,7 +68,7 @@ namespace ToonSpace.Services
 
                 foreach (ToonUser user in followers)
                 {
-                    followerUploads.AddRange(user.Uploads);
+                    followerUploads?.AddRange(user.Uploads);
                 }
 
                 return followerUploads;

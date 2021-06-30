@@ -31,8 +31,8 @@ namespace ToonSpace.Services
                     {
                         try
                         {
-                            user.Following.Add(toonUser);
-                            toonUser.Followers.Add(user);
+                            user?.Following.Add(toonUser);
+                            toonUser?.Followers.Add(user);
                             await _context.SaveChangesAsync();
                             return true;
                         }
@@ -62,14 +62,14 @@ namespace ToonSpace.Services
         {
             ToonUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == myId);
 
-            return user.Followers.ToList();
+            return user?.Followers.ToList();
         }
 
         public async Task<List<ToonUser>> GetFollowingAsync(string myId)
         {
             ToonUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == myId);
 
-            return user.Following.ToList();
+            return user?.Following.ToList();
         }
 
         public async Task UnfollowUser(string myId, string toonUserId)
@@ -79,8 +79,8 @@ namespace ToonSpace.Services
                 ToonUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == myId);
                 ToonUser toonUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == toonUserId);
 
-                user.Following.Remove(toonUser);
-                toonUser.Followers.Remove(user);
+                user?.Following.Remove(toonUser);
+                toonUser?.Followers.Remove(user);
                 await _context.SaveChangesAsync();
             }
             catch(Exception)

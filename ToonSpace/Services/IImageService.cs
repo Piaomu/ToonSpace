@@ -9,6 +9,7 @@ namespace ToonSpace.Services
     public interface IImageService
     {
         Task<byte[]> EncodeImageAsync(IFormFile poster);
+        Task<byte[]> EncodeImageAsync(string fileName);
 
         //encode an image from a url
         Task<byte[]> EncodeImageURLAsync(string imageURL);

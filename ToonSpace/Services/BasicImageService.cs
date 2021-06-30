@@ -21,6 +21,12 @@ namespace ToonSpace.Services
             return ms.ToArray();
         }
 
+        public async Task<byte[]> EncodeImageAsync(string fileName)
+        {
+            var file = $"{Directory.GetCurrentDirectory()}/wwwroot{fileName}";
+            return await File.ReadAllBytesAsync(file);
+        }
+
         public async Task<byte[]> EncodeImageURLAsync(string imageURL)
         {
             var client = new HttpClient();
