@@ -197,8 +197,32 @@ namespace ToonSpace.Services
 
         public async Task<bool> LikeUpload(string myId, int uploadId)
         {
+            try 
+            {
             ToonUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == myId);
             Upload upload = await _context.Upload.FirstOrDefaultAsync(u => u.Id == uploadId);
+            UserLike like = new UserLike()
+            {
+                ToonUser = user,
+                Upload = upload
+            };
+
+            if(user.Likes.Count(l => l.Id == uploadId) == 0)
+            {
+                upload.Likes.Add(like);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+                else
+                {
+                    return false;
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error liking media - {ex.Message}");
+                throw;
+            }
 
         }
 
@@ -210,7 +234,9 @@ namespace ToonSpace.Services
         public async Task<bool> DoesUserAlreadyLike(string userId, int userLikeId)
         {
             ToonUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-            //UserLike like = await _context.Users.FirstOrDefaultAsync(u => u.Likes.FirstOrDefault(l => l.Id == userLikeId));
+            UserLike like = user.Likes.FirstOrDefault(l => l.Id == userLikeId);
+
+            return like != null;
         }
     }
 }
