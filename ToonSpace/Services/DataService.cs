@@ -69,9 +69,64 @@ namespace ToonSpace.Services
                 PhoneNumber = "555-5555",
                 EmailConfirmed = true,
                 ImageData = await _imageService.EncodeImageAsync("cryingfrankenstein.jpg"),
-
-
+                ContentType = "jpg"
             };
+
+            var modUser = new ToonUser()
+            {
+                Email = "turd@gmail.com",
+                UserName = "turd@gmail.com",
+                FirstName = "Turd",
+                LastName = "Ferguson",
+                PhoneNumber = "444-4444",
+                EmailConfirmed = true,
+                ImageData = await _imageService.EncodeImageAsync("turd_ferguson.jpg"),
+                ContentType = "jpg"
+            };
+
+            var artistUser1 = new ToonUser()
+            {
+                Email = "french@gmail.com",
+                UserName = "french@gmail.com",
+                FirstName = "French",
+                LastName = "Stewart",
+                PhoneNumber = "333-3333",
+                EmailConfirmed = true,
+                ImageData = await _imageService.EncodeImageAsync("french_stewart.jpg"),
+                ContentType = "jpg"
+            };
+
+            var artistUser2 = new ToonUser()
+            {
+                Email = "sean@gmail.com",
+                UserName = "sean@gmail.com",
+                FirstName = "Sean",
+                LastName = "Connery",
+                PhoneNumber = "222-2222",
+                EmailConfirmed = true,
+                ImageData = await _imageService.EncodeImageAsync("sean_connery.png"),
+                ContentType = "png"
+            };
+
+            //Create Admin User
+            await _userManager.CreateAsync(adminUser, _configuration["AdminPassword"]);
+            //Assign User to Admin Role
+            await _userManager.AddToRoleAsync(adminUser, ToonerRole.Administrator.ToString());
+
+            //Create Mod User
+            await _userManager.CreateAsync(modUser, _configuration["ModPassword"]);
+            //Assign User to Mod Role
+            await _userManager.AddToRoleAsync(modUser, ToonerRole.Moderator.ToString());
+
+            //Create Artist 1 User
+            await _userManager.CreateAsync(artistUser1, _configuration["Artist1Password"]);
+            //Assign User to Artist Role
+            await _userManager.AddToRoleAsync(artistUser1, ToonerRole.Artist.ToString());
+
+            //Create Artist 2 User
+            await _userManager.CreateAsync(artistUser2, _configuration["Artist2Password"]);
+            //Assign User to Artist Role
+            await _userManager.AddToRoleAsync(artistUser2, ToonerRole.Artist.ToString());
         }
 
 
