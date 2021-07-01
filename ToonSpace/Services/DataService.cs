@@ -68,8 +68,6 @@ namespace ToonSpace.Services
                 LastName = "Wahl",
                 PhoneNumber = "555-5555",
                 EmailConfirmed = true,
-                ImageData = await _imageService.EncodeImageAsync("cryingfrankenstein.jpg"),
-                ContentType = "jpg"
             };
 
             var modUser = new ToonUser()
@@ -80,8 +78,6 @@ namespace ToonSpace.Services
                 LastName = "Ferguson",
                 PhoneNumber = "444-4444",
                 EmailConfirmed = true,
-                ImageData = await _imageService.EncodeImageAsync("turd_ferguson.jpg"),
-                ContentType = "jpg"
             };
 
             var artistUser1 = new ToonUser()
@@ -92,8 +88,6 @@ namespace ToonSpace.Services
                 LastName = "Stewart",
                 PhoneNumber = "333-3333",
                 EmailConfirmed = true,
-                ImageData = await _imageService.EncodeImageAsync("french_stewart.jpg"),
-                ContentType = "jpg"
             };
 
             var artistUser2 = new ToonUser()
@@ -104,8 +98,6 @@ namespace ToonSpace.Services
                 LastName = "Connery",
                 PhoneNumber = "222-2222",
                 EmailConfirmed = true,
-                ImageData = await _imageService.EncodeImageAsync("sean_connery.png"),
-                ContentType = "png"
             };
 
             //Create Admin User
