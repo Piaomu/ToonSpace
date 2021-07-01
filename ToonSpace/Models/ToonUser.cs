@@ -23,6 +23,9 @@ namespace ToonSpace.Models
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at most {1} characters.", MinimumLength = 2)]
         public string Nickname { get; set; }
 
+        [StringLength(500, ErrorMessage = "The {0} must be at least {2} and at most {1} characters.", MinimumLength = 2)]
+        public string Bio { get; set; }
+
         public DateTime RegisterDate { get; set; }
         public DateTime LastLogin { get; set; }
         public string FollowerId { get; set; }

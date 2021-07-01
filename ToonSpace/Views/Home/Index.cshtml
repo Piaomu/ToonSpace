@@ -8,29 +8,30 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
-                    <div class="h5">LeeCross</div>
-                    <div class="h7 text-muted">Fullname : Miracles Lee Cross</div>
+                    <div class="h5">@Model.User.FullName</div>
+                    <div class="h7 text-muted">@Model.User.Nickname</div>
                     <div class="h7">
-                        Developer of web applications, JavaScript, PHP, Java, Python, Ruby, Java, Node.js,
-                        etc.
+                        //This is where Bio will go
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <div class="h6 text-muted">Followers</div>
-                        <div class="h5">5.2342</div>
+                        <div class="h5">@Model.User.Followers.Count</div>
                     </li>
                     <li class="list-group-item">
                         <div class="h6 text-muted">Following</div>
-                        <div class="h5">6758</div>
+                        <div class="h5">@Model.User.Following.Count</div>
                     </li>
-                    <li class="list-group-item">Vestibulum at eros</li>
+                    <li class="list-group-item">
+                        <a class="btn btn-primary text-white" asp-area="Identity" asp-page="/Account/Manage/Index">Edit Profile</a>
+                    </li>
                 </ul>
             </div>
         </div>
         <div class="col-md-6 gedf-main">
 
-            <!--- \\\\\\\Post-->
+            <!--- \\\\\\\Create Post-->
             <div class="card gedf-card">
                 <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
@@ -82,7 +83,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Post /////-->
+            <!-- Create Post /////-->
             <!--- \\\\\\\Post-->
             <div class="card gedf-card">
                 <div class="card-header">

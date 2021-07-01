@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ToonSpace.Models;
+using ToonSpace.Services;
 
 namespace ToonSpace.Areas.Identity.Pages.Account.Manage
 {
@@ -14,16 +16,20 @@ namespace ToonSpace.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ToonUser> _userManager;
         private readonly SignInManager<ToonUser> _signInManager;
+        private readonly IImageService _imageService;
 
         public IndexModel(
             UserManager<ToonUser> userManager,
-            SignInManager<ToonUser> signInManager)
+            SignInManager<ToonUser> signInManager,
+            IImageService imageService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _imageService = imageService;
         }
 
         public string Username { get; set; }
+        public string CurrentImage { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -33,6 +39,22 @@ namespace ToonSpace.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            [Required]
+            [Display(Name = "First Name")]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at most {1} characters.", MinimumLength = 2)]
+            public string FirstName { get; set; }
+
+            [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at most {1} characters.", MinimumLength = 2)]
+            
+            [Display(Name ="Last Name")]
+            public string LastName { get; set; }
+
+            [StringLength(500, ErrorMessage = "The {0} must be at least {2} and at most {1} characters.", MinimumLength = 2)]
+            public string Bio {get; set;}
+            [Display(Name ="Profile Pic")]
+            public IFormFile ImageFile { get; set; }
+
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
@@ -44,10 +66,14 @@ namespace ToonSpace.Areas.Identity.Pages.Account.Manage
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             Username = userName;
+            CurrentImage = _imageService
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Bio = user.Bio
             };
         }
 
