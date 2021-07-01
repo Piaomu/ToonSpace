@@ -66,7 +66,7 @@ namespace ToonSpace.Areas.Identity.Pages.Account.Manage
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             Username = userName;
-            CurrentImage = _imageService
+            CurrentImage = _imageService.DecodeImage(user.ImageData, user.ContentType);
 
             Input = new InputModel
             {
@@ -112,6 +112,33 @@ namespace ToonSpace.Areas.Identity.Pages.Account.Manage
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
                 }
+            }
+
+            if (Input.FirstName != user.FirstName)
+            {
+                user.FirstName = Input.FirstName;
+                await _userManager.UpdateAsync(user);
+            }
+
+            if (Input.LastName != user.LastName)
+            {
+                user.LastName = Input.LastName;
+                await _userManager.UpdateAsync(user);
+            }
+
+            if(Input.Bio != user.Bio)
+            {
+                user.Bio = Input.Bio;
+                await _userManager.UpdateAsync(user);
+            }
+
+            //Don't forget to manage IFormFile for avatar photo
+            if (Input.ImageFile is not null)
+            {
+                user.ImageData = await _imageService.EncodeImageAsync(Input.ImageFile);
+                user.ContentType = _imageService.ContentType(Input.ImageFile);
+                await _userManager.UpdateAsync(user);
+
             }
 
             await _signInManager.RefreshSignInAsync(user);
