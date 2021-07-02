@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,14 +18,20 @@ namespace ToonSpace.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IImageService _imageService;
         private readonly IRelationService _relationService;
+        private readonly IUploadService _uploadService;
+        private readonly UserManager<ToonUser> _userManager;
 
         public UploadsController(ApplicationDbContext context,
                                  IImageService imageService,
-                                 IRelationService relationService)
+                                 IRelationService relationService,
+                                 IUploadService uploadService,
+                                 UserManager<ToonUser> userManager)
         {
             _context = context;
             _imageService = imageService;
             _relationService = relationService;
+            _uploadService = uploadService;
+            _userManager = userManager;
         }
 
         // GET: Uploads
@@ -59,6 +66,7 @@ namespace ToonSpace.Controllers
         {
             ViewData["ArtistId"] = new SelectList(_context.Users, "Id", "Id");
             ViewData["GenreId"] = new SelectList(_context.Genre, "Id", "Id");
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
             return View();
         }
 
@@ -67,16 +75,21 @@ namespace ToonSpace.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,GenreId,Title,Description,ArtistId,Created,ViewCount,Visible,Image,ContentType,GenreName,MediaStatus")] Upload upload)
+        public async Task<IActionResult> Create(string returnUrl, [Bind("Id,GenreId,Title,Description,Visible,MediaStatus,ImageFile")] Upload upload)
         {
             if (ModelState.IsValid)
             {
+                upload.Created = DateTime.Now;
+                upload.ArtistId = _userManager.GetUserId(User);
+                upload.Image = await _imageService.EncodeImageAsync(upload.ImageFile);
+                upload.ContentType = _imageService.ContentType(upload.ImageFile);
+
                 _context.Add(upload);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return Redirect(returnUrl);
             }
-            ViewData["ArtistId"] = new SelectList(_context.Users, "Id", "Id", upload.ArtistId);
-            ViewData["GenreId"] = new SelectList(_context.Genre, "Id", "Id", upload.GenreId);
+            ViewData["ArtistId"] = new SelectList(_context.Users, "Id", "Name", upload.ArtistId);
+            ViewData["GenreId"] = new SelectList(_context.Genre, "Id", "Name", upload.GenreId);
             return View(upload);
         }
 

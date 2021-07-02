@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using ToonSpace.Enums;
@@ -28,8 +29,10 @@ namespace ToonSpace.Models
         public int ViewCount { get; set; }
 
         public bool Visible { get; set; }
+        [NotMapped]
+        [Display(Name = "Add Image")]
+        public IFormFile ImageFile { get; set; }
 
-        [Required]
         public byte[] Image { get; set; }
         public string ContentType { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿@model ToonSpace.Models.ViewModels.IndexFeedViewModel
 @using ToonSpace.Services
+@using (Html.BeginForm())
 @inject IImageService _imageService
 @{
     ViewData["Title"] = "Timeline";
@@ -73,7 +74,8 @@
                     </div>
                     <div class="btn-toolbar justify-content-between">
                         <div class="btn-group">
-                            <button type="submit" class="btn btn-primary">share</button>
+                            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+                            <button type="submit" class="btn btn-primary">Share</button>
                         </div>
                         <div class="btn-group">
                             <button id="btnGroupDrop1" type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"

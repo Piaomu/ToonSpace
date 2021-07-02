@@ -19,18 +19,21 @@ namespace ToonSpace.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ToonUser> _userManager;
         private readonly IRelationService _relationService;
+        private readonly IUploadService _uploadService;
 
         public HomeController(ILogger<HomeController> logger,
                               ApplicationDbContext context,
                               UserManager<ToonUser> userManager,
-                              IRelationService relationService)
+                              IRelationService relationService,
+                              IUploadService uploadService)
         {
             _logger = logger;
             _context = context;
             _userManager = userManager;
             _relationService = relationService;
+            _uploadService = uploadService;
         }
-
+        [HttpGet]
         public async Task<IActionResult> IndexAsync()
         {
             var userId = _userManager.GetUserId(User);
@@ -39,8 +42,8 @@ namespace ToonSpace.Controllers
             {
                 Followers = await _relationService.GetFollowersAsync(userId),
                 Following = await _relationService.GetFollowingAsync(userId),
-                User = await _userManager.GetUserAsync(User)
-
+                User = await _userManager.GetUserAsync(User),
+                Uploads = await _uploadService.GetTimelineUploadsAsync(userId)
             };
 
             return View(model);
