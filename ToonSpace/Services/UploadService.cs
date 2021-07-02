@@ -23,7 +23,7 @@ namespace ToonSpace.Services
             try 
             {
             ToonUser artist = await _context.Users.FirstOrDefaultAsync(u => u.Id == artistId);
-            var uploads = artist.Uploads?.ToList();
+            var uploads = artist?.Uploads?.ToList();
 
             return uploads;
 
@@ -59,17 +59,24 @@ namespace ToonSpace.Services
             try
             {
                 ToonUser artist = await _context.Users?.FirstOrDefaultAsync(u => u.Id == artistId);
-                List<ToonUser> following = artist?.Following?.ToList();
+                List<ToonUser> following = artist?.Following.ToList();
                 List<Upload> followingUploads = new();
 
-                foreach (ToonUser user in following)
-                {
-                    followingUploads?.AddRange(user.Uploads);
-                }
+                if(following is not null) 
+                { 
+                    foreach (ToonUser user in following)
+                    {
+                        followingUploads?.AddRange(user.Uploads);
+                    }
 
-                return followingUploads;
-            }
-            catch(Exception ex)
+                    return followingUploads;
+                }
+                else
+                {
+                    return null;
+                }
+                }
+            catch (Exception ex)
             {
                 Debug.WriteLine($"*** ERROR *** - Error getting your following's uploads - {ex.Message}");
                 throw;
