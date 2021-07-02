@@ -1,6 +1,8 @@
 ﻿@model ToonSpace.Models.ViewModels.IndexFeedViewModel
+@using ToonSpace.Services
+@inject IImageService _imageService
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Timeline";
 }
 
 <div class="container-fluid gedf-wrapper">
@@ -8,10 +10,14 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
+                    <div class="text-center">
+                        <img src="@_imageService.DecodeImage(Model.User.ImageData, Model.User.ContentType)" class="img-fluid" alt="Profile Pic">
+                    </div>
                     <div class="h5">@Model.User.FullName</div>
+                    <hr />
                     <div class="h7 text-muted">@Model.User.Nickname</div>
                     <div class="h7">
-                        //This is where Bio will go
+                        @Model.User.Bio
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">

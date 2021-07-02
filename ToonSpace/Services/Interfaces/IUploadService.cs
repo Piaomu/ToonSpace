@@ -9,6 +9,7 @@ namespace ToonSpace.Services.Interfaces
     public interface IUploadService
     {
         public Task<List<Upload>> GetAllUploadsByArtist(string artistId);
+        public Task<List<Upload>> GetTimelineUploadsAsync(string artistId);
         public Task<List<Upload>> GetAllUploadsByGenre(int genreId);
         public Task<bool> LikeUpload(string myId, int uploadId);
         public Task UnLikeUpload(string myId, int uploadId);

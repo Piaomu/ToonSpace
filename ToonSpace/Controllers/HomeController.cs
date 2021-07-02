@@ -40,6 +40,7 @@ namespace ToonSpace.Controllers
                 Followers = await _relationService.GetFollowersAsync(userId),
                 Following = await _relationService.GetFollowingAsync(userId),
                 User = await _userManager.GetUserAsync(User)
+
             };
 
             return View(model);

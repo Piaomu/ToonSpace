@@ -35,6 +35,25 @@ namespace ToonSpace.Services
             }
         }
 
+        public async Task<List<Upload>> GetTimeLineUploadsAsync(string artistId)
+        {
+            try {
+            List<Upload> followingUploads = (await GetUploadsFromFollowing(artistId));
+            List<Upload> myUploads = await GetAllUploadsByArtist(artistId);
+            List<Upload> allUploads = followingUploads.Concat(myUploads).ToList();
+            List<Upload> TimeLineUploads = allUploads.OrderByDescending(u => u.Created).Take(30).ToList();
+
+            return TimeLineUploads;
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error getting timeline uploads - {ex.Message}");
+                throw;
+            }
+
+
+        }
+
         public async Task<List<Upload>> GetUploadsFromFollowing(string artistId)
         {
             try
