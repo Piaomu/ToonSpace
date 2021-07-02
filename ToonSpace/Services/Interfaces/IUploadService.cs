@@ -10,11 +10,9 @@ namespace ToonSpace.Services.Interfaces
     {
         public Task<List<Upload>> GetAllUploadsByArtist(string artistId);
         public Task<List<Upload>> GetTimelineUploadsAsync(string artistId);
-        public Task<List<Upload>> GetAllUploadsByGenre(int genreId);
         public Task<bool> LikeUpload(string myId, int uploadId);
         public Task UnLikeUpload(string myId, int uploadId);
         public Task<List<Upload>> GetMostPopularUploadsByArtist(string artistId);
-        public Task<List<Upload>> GetMostPopularUploadsByGenre(int genreId);
         public Task<List<Upload>> GetMostPopularUploadsByDay(string artistId);
         public Task<List<Upload>> GetMostPopularUploadsByMonth(string artistId);
         public Task<List<Upload>> GetMostPopularUploadsByYear(string artistId);

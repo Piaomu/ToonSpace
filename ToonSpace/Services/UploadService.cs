@@ -58,8 +58,8 @@ namespace ToonSpace.Services
         {
             try
             {
-                ToonUser artist = await _context.Users.FirstOrDefaultAsync(u => u.Id == artistId);
-                List<ToonUser> following = artist.Following.ToList();
+                ToonUser artist = await _context.Users?.FirstOrDefaultAsync(u => u.Id == artistId);
+                List<ToonUser> following = artist?.Following?.ToList();
                 List<Upload> followingUploads = new();
 
                 foreach (ToonUser user in following)
@@ -99,30 +99,6 @@ namespace ToonSpace.Services
             }
         }
 
-        public async Task<List<Upload>> GetAllUploadsByGenre(int genreId)
-        {
-            try 
-            {
-            List<Upload> uploads = new();
-
-            uploads = await _context.Upload
-                                    .Include(u => u.Artist)
-                                    .Include(u => u.Genre)
-                                    .Include(u => u.Likes)
-                                    .Include(u => u.Title)
-                                    .Include(u => u.Comments)
-                                    .Where(u => u.GenreId == genreId).ToListAsync();
-
-            return uploads;
-
-            }
-            catch(Exception ex)
-            {
-                Debug.WriteLine($"*** ERROR *** - Error getting uploads by genre - {ex.Message}");
-                throw;
-            }
-        }
-
         public async Task<List<Upload>> GetMostPopularUploadsByArtist(string artistId)
         {
             try 
@@ -155,22 +131,6 @@ namespace ToonSpace.Services
                 throw;
             }
 
-        }
-
-        public async Task<List<Upload>> GetMostPopularUploadsByGenre(int genreId)
-        {
-            try 
-            {
-            List<Upload> uploads = await GetAllUploadsByGenre(genreId);
-            var topTen = uploads.OrderByDescending(u => u.Likes.Count).Take(10).ToList();
-
-            return topTen;
-            }
-            catch(Exception ex)
-            {
-                Debug.WriteLine($"*** ERROR *** - Error getting top uploads by Genre - {ex.Message}");
-                throw;
-            }
         }
 
         //Implement this if necessary

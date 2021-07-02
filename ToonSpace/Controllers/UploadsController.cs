@@ -37,7 +37,7 @@ namespace ToonSpace.Controllers
         // GET: Uploads
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Upload.Include(u => u.Artist).Include(u => u.Genre);
+            var applicationDbContext = _context.Upload.Include(u => u.Artist);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -51,7 +51,6 @@ namespace ToonSpace.Controllers
 
             var upload = await _context.Upload
                 .Include(u => u.Artist)
-                .Include(u => u.Genre)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (upload == null)
             {
@@ -65,7 +64,6 @@ namespace ToonSpace.Controllers
         public IActionResult Create()
         {
             ViewData["ArtistId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["GenreId"] = new SelectList(_context.Genre, "Id", "Id");
             ViewBag.returnUrl = Request.Headers["Referer"].ToString();
             return View();
         }
@@ -75,7 +73,7 @@ namespace ToonSpace.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string returnUrl, [Bind("Id,GenreId,Title,Description,Visible,MediaStatus,ImageFile")] Upload upload)
+        public async Task<IActionResult> Create(string returnUrl, [Bind("Id,GenreId,Title,Description,MediaStatus,ImageFile")] Upload upload)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +87,6 @@ namespace ToonSpace.Controllers
                 return Redirect(returnUrl);
             }
             ViewData["ArtistId"] = new SelectList(_context.Users, "Id", "Name", upload.ArtistId);
-            ViewData["GenreId"] = new SelectList(_context.Genre, "Id", "Name", upload.GenreId);
             return View(upload);
         }
 
@@ -107,7 +104,7 @@ namespace ToonSpace.Controllers
                 return NotFound();
             }
             ViewData["ArtistId"] = new SelectList(_context.Users, "Id", "Id", upload.ArtistId);
-            ViewData["GenreId"] = new SelectList(_context.Genre, "Id", "Id", upload.GenreId);
+
             return View(upload);
         }
 
@@ -144,7 +141,6 @@ namespace ToonSpace.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ArtistId"] = new SelectList(_context.Users, "Id", "Id", upload.ArtistId);
-            ViewData["GenreId"] = new SelectList(_context.Genre, "Id", "Id", upload.GenreId);
             return View(upload);
         }
 
@@ -158,7 +154,6 @@ namespace ToonSpace.Controllers
 
             var upload = await _context.Upload
                 .Include(u => u.Artist)
-                .Include(u => u.Genre)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (upload == null)
             {

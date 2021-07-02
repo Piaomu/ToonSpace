@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ToonSpace.data.migration
 {
-    public partial class _001 : Migration
+    public partial class _001Identity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,6 +30,7 @@ namespace ToonSpace.data.migration
                     FirstName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     LastName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Nickname = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    Bio = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     RegisterDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     LastLogin = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     FollowerId = table.Column<string>(type: "text", nullable: true),
@@ -54,21 +55,6 @@ namespace ToonSpace.data.migration
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Genre",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    GenreImage = table.Column<byte[]>(type: "bytea", nullable: true),
-                    ContentType = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Genre", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -178,6 +164,38 @@ namespace ToonSpace.data.migration
                 });
 
             migrationBuilder.CreateTable(
+                name: "Invitation",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    InviteDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    Token = table.Column<Guid>(type: "uuid", nullable: false),
+                    InvitorId = table.Column<string>(type: "text", nullable: true),
+                    InviteeId = table.Column<string>(type: "text", nullable: true),
+                    InviteeFirstName = table.Column<string>(type: "text", nullable: true),
+                    InviteeLastName = table.Column<string>(type: "text", nullable: true),
+                    IsValid = table.Column<bool>(type: "boolean", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invitation", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Invitation_AspNetUsers_InviteeId",
+                        column: x => x.InviteeId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Invitation_AspNetUsers_InvitorId",
+                        column: x => x.InvitorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ToonUserToonUser",
                 columns: table => new
                 {
@@ -207,16 +225,14 @@ namespace ToonSpace.data.migration
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    GenreId = table.Column<int>(type: "integer", nullable: false),
-                    Title = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
+                    Title = table.Column<string>(type: "text", nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
                     ArtistId = table.Column<string>(type: "text", nullable: true),
                     Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     ViewCount = table.Column<int>(type: "integer", nullable: false),
                     Visible = table.Column<bool>(type: "boolean", nullable: false),
-                    Image = table.Column<byte[]>(type: "bytea", nullable: false),
+                    Image = table.Column<byte[]>(type: "bytea", nullable: true),
                     ContentType = table.Column<string>(type: "text", nullable: true),
-                    GenreName = table.Column<int>(type: "integer", nullable: false),
                     MediaStatus = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -228,12 +244,6 @@ namespace ToonSpace.data.migration
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Upload_Genre_GenreId",
-                        column: x => x.GenreId,
-                        principalTable: "Genre",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -399,6 +409,16 @@ namespace ToonSpace.data.migration
                 column: "UploadId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Invitation_InviteeId",
+                table: "Invitation",
+                column: "InviteeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invitation_InvitorId",
+                table: "Invitation",
+                column: "InvitorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Notification_CommentId",
                 table: "Notification",
                 column: "CommentId");
@@ -434,11 +454,6 @@ namespace ToonSpace.data.migration
                 column: "ArtistId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Upload_GenreId",
-                table: "Upload",
-                column: "GenreId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserLike_CommentId",
                 table: "UserLike",
                 column: "CommentId");
@@ -472,6 +487,9 @@ namespace ToonSpace.data.migration
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Invitation");
+
+            migrationBuilder.DropTable(
                 name: "Notification");
 
             migrationBuilder.DropTable(
@@ -491,9 +509,6 @@ namespace ToonSpace.data.migration
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Genre");
         }
     }
 }

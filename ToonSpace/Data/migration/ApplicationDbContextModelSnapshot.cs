@@ -187,27 +187,6 @@ namespace ToonSpace.data.migration
                     b.ToTable("Comment");
                 });
 
-            modelBuilder.Entity("ToonSpace.Models.Genre", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("ContentType")
-                        .HasColumnType("text");
-
-                    b.Property<byte[]>("GenreImage")
-                        .HasColumnType("bytea");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Genre");
-                });
-
             modelBuilder.Entity("ToonSpace.Models.Invitation", b =>
                 {
                     b.Property<int>("Id")
@@ -417,14 +396,7 @@ namespace ToonSpace.data.migration
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("GenreId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("GenreName")
-                        .HasColumnType("integer");
 
                     b.Property<byte[]>("Image")
                         .HasColumnType("bytea");
@@ -433,7 +405,6 @@ namespace ToonSpace.data.migration
                         .HasColumnType("integer");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("ViewCount")
@@ -445,8 +416,6 @@ namespace ToonSpace.data.migration
                     b.HasKey("Id");
 
                     b.HasIndex("ArtistId");
-
-                    b.HasIndex("GenreId");
 
                     b.ToTable("Upload");
                 });
@@ -621,15 +590,7 @@ namespace ToonSpace.data.migration
                         .WithMany("Uploads")
                         .HasForeignKey("ArtistId");
 
-                    b.HasOne("ToonSpace.Models.Genre", "Genre")
-                        .WithMany("Upload")
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Artist");
-
-                    b.Navigation("Genre");
                 });
 
             modelBuilder.Entity("ToonSpace.Models.UserLike", b =>
@@ -669,11 +630,6 @@ namespace ToonSpace.data.migration
             modelBuilder.Entity("ToonSpace.Models.Comment", b =>
                 {
                     b.Navigation("Likes");
-                });
-
-            modelBuilder.Entity("ToonSpace.Models.Genre", b =>
-                {
-                    b.Navigation("Upload");
                 });
 
             modelBuilder.Entity("ToonSpace.Models.ToonUser", b =>
