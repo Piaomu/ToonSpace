@@ -10,6 +10,7 @@ using ToonSpace.Models;
 using ToonSpace.Data;
 using ToonSpace.Models.ViewModels;
 using ToonSpace.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ToonSpace.Controllers
 {
@@ -33,7 +34,14 @@ namespace ToonSpace.Controllers
             _relationService = relationService;
             _uploadService = uploadService;
         }
+
+        public IActionResult Landing()
+        {
+            return View();
+        }
+
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> IndexAsync()
         {
             var userId = _userManager.GetUserId(User);
