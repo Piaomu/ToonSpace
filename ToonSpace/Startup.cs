@@ -52,7 +52,7 @@ namespace ToonSpace
                 {
                     options.ClientId = "939598031066-ki41sd7ijpshmkv6je5h1rv5qr5974oc.apps.googleusercontent.com";
                     options.ClientSecret = "GmEq1rtzoRsYPkVXrn_THI4H";
-                })
+                });
                 //.AddTwitter(options =>
                 //{
                 //    options.ConsumerKey = "Z0roH3IzOGs3t04k4cZOvoa9V";
