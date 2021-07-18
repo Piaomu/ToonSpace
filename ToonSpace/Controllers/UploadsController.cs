@@ -73,7 +73,7 @@ namespace ToonSpace.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string returnUrl, [Bind("Id,GenreId,Title,Description,MediaStatus,ImageFile")] Upload upload)
+        public async Task<IActionResult> Create(string returnUrl, [Bind("Id,Title,Description,MediaStatus,ImageFile")] Upload upload)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace ToonSpace.Controllers
 
                 _context.Add(upload);
                 await _context.SaveChangesAsync();
-                return Redirect(returnUrl);
+                return RedirectToAction("Index");
             }
             ViewData["ArtistId"] = new SelectList(_context.Users, "Id", "Name", upload.ArtistId);
             return View(upload);
@@ -113,7 +113,7 @@ namespace ToonSpace.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,GenreId,Title,Description,ArtistId,Created,ViewCount,Visible,Image,ContentType,GenreName,MediaStatus")] Upload upload)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,ArtistId,Created,ViewCount,Visible,Image,ContentType,GenreName,MediaStatus")] Upload upload)
         {
             if (id != upload.Id)
             {

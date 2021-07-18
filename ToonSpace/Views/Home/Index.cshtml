@@ -44,41 +44,38 @@
                 <div class="card-header">
                     <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">
-                                Make
-                                a publication
-                            </a>
+                            <a class="nav-link active" id="images-tab" data-toggle="tab" role="tab" aria-controls="images" aria-selected="true" href="#images">Share a Toon</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images" aria-selected="false" href="#images">Images</a>
+                            <a class="nav-link" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="false">
+                                Talk about it
+                            </a>
                         </li>
                     </ul>
                 </div>
                 <form asp-action="Create" asp-controller="Uploads" method="post" enctype="multipart/form-data">
                     <div class="card-body">
                         <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                            <div class="tab-pane fade" id="posts" role="tabpanel" aria-labelledby="posts-tab">
                                 <div>
                                     <div class="form-group">
-                                        <label name="Title" class="sr-only" for="Title">Add a Title</label>
-                                        <input name="Title" class="form-control" id="Title" placeholder="Add a title." />
+                                        <label asp-for="@Model.MyUpload.Title" class="control-label"></label>
+                                        <input asp-for="@Model.MyUpload.Title" class="form-control" placeholder="What's your Toon's title?" />
+                                        <span asp-validation-for="@Model.MyUpload.Title" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label name="Description" class="sr-only" for="Description">post</label>
-                                    <textarea name="Description" class="form-control" id="Description" rows="3" placeholder="What are you thinking?"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="MyUpload.MediaStatus" class="control-label"></label>
-                                    <select asp-for="MyUpload.MediaStatus" asp-items="@Html.GetEnumSelectList<MediaStatus>()" class="form-control"></select>
-                                    <span asp-validation-for="MyUpload.MediaStatus" class="text-danger"></span>
+                                    <label asp-for="@Model.MyUpload.Description" class="control-label"></label>
+                                    <input asp-for="@Model.MyUpload.Description" class="form-control" />
+                                    <span asp-validation-for="@Model.MyUpload.Description" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
+                            <div class="tab-pane fade show active" id="images" role="tabpanel" aria-labelledby="images-tab">
                                 <div class="form-group">
-                                    <div class="custom-file">
-                                        <input name="ImageFile" type="file" class="custom-file-input" id="ImageFile">
-                                        <label name="ImageFile" class="custom-file-label" for="customFile">Upload Image</label>
+                                    <div class="form-group">
+                                        <label asp-for="@Model.MyUpload.ImageFile" class="control-label"></label>
+                                        <input asp-for="@Model.MyUpload.ImageFile" type="file" class="form-control" />
+                                        <span asp-validation-for="@Model.MyUpload.ImageFile" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="py-4"></div>
@@ -86,7 +83,7 @@
                         </div>
                         <div class="btn-toolbar justify-content-between">
                             <div class="btn-group">
-                                <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+                                @*<input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />*@
                                 <button type="submit" class="btn btn-primary">Share</button>
                             </div>
 
@@ -106,53 +103,58 @@
                 </form>
             </div>
             <!-- Create Post /////-->
-            <!--- \\\\\\\Post-->
-            <div class="card gedf-card">
-                <div class="card-header">
-                    <div class="d-flex justify-content-between align-items-center">
+            <!--- \\\\\\\TimeLine Posts-->
+            @foreach (Upload upload in Model.Uploads)
+            {
+                <!--- \\\\\\\Upload-->
+                <div class="card gedf-card">
+                    <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
-                            <div class="mr-2">
-                                <img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="mr-2">
+                                    <img class="rounded-circle" width="45" src="@_imageService.DecodeImage(upload.Artist.ImageData, upload.Artist.ContentType)" alt="Artist Profile Pic">
+                                </div>
+                                <div class="ml-2">
+                                    <div class="h5 m-0">@upload.Artist.FullName</div>
+                                    <div class="h7 text-muted">@upload.Artist.Nickname</div>
+                                </div>
                             </div>
-                            <div class="ml-2">
-                                <div class="h5 m-0">LeeCross</div>
-                                <div class="h7 text-muted">Miracles Lee Cross</div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="dropdown">
-                                <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-ellipsis-h"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
-                                    <div class="h6 dropdown-header">Configuration</div>
-                                    <a class="dropdown-item" href="#">Save</a>
-                                    <a class="dropdown-item" href="#">Hide</a>
-                                    <a class="dropdown-item" href="#">Report</a>
+                            <div>
+                                <div class="dropdown">
+                                    <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-h"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
+                                        <div class="h6 dropdown-header">Configuration</div>
+                                        <a class="dropdown-item" href="#">Save</a>
+                                        <a class="dropdown-item" href="#">Hide</a>
+                                        <a class="dropdown-item" href="#">Report</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
+                    <div class="card-body">
+                        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>@upload.Created.ToShortTimeString()</div>
+                        <a class="card-link" href="#">
+                            <h5 class="card-title">@upload.Title</h5>
+                        </a>
 
+                        <p class="card-text">
+                            @upload.Description
+                        </p>
+                        <img />
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
+                        <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
+                        <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>10 min ago</div>
-                    <a class="card-link" href="#">
-                        <h5 class="card-title">Lorem ipsum dolor sit amet, consectetur adip.</h5>
-                    </a>
+                <!-- Upload /////-->
+            }
 
-                    <p class="card-text">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo recusandae nulla rem eos ipsa praesentium esse magnam nemo dolor
-                        sequi fuga quia quaerat cum, obcaecati hic, molestias minima iste voluptates.
-                    </p>
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
-                    <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
-                    <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
-                </div>
-            </div>
-            <!-- Post /////-->
             <!--- \\\\\\\Post-->
             <div class="card gedf-card">
                 <div class="card-header">

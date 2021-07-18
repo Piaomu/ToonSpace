@@ -22,7 +22,10 @@ namespace ToonSpace.Services
         {
             try 
             {
-            ToonUser artist = await _context.Users.FirstOrDefaultAsync(u => u.Id == artistId);
+            ToonUser artist = await _context.Users
+                                            .Include(u => u.Uploads)
+                                            .FirstOrDefaultAsync(u => u.Id == artistId);
+
             var uploads = artist?.Uploads?.ToList();
 
             return uploads;
