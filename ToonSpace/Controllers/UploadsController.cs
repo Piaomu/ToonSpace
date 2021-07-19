@@ -169,6 +169,7 @@ namespace ToonSpace.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var upload = await _context.Upload.FindAsync(id);
+
             _context.Upload.Remove(upload);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -187,7 +188,7 @@ namespace ToonSpace.Controllers
             {
                 await _uploadService.LikeUpload(user.Id, upload.Id);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             catch
             {
