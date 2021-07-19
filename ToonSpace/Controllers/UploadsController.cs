@@ -178,5 +178,22 @@ namespace ToonSpace.Controllers
         {
             return _context.Upload.Any(e => e.Id == id);
         }
+
+        public async Task<ActionResult> LikeUnlike(int id)
+        {
+            ToonUser user = await _userManager.GetUserAsync(User);
+            Upload upload = await _context.Upload.FirstOrDefaultAsync(u => u.Id == id);
+            try
+            {
+                await _uploadService.LikeUpload(user.Id, upload.Id);
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                await _uploadService.UnLikeUpload(user.Id, upload.Id);
+                return RedirectToAction("Index");
+            }
+        }
     }
 }

@@ -118,7 +118,7 @@
                                     <img class="rounded-circle" width="45" src="@_imageService.DecodeImage(upload.Artist.ImageData, upload.Artist.ContentType)" alt="Artist Profile Pic">
                                 </div>
                                 <div class="ml-2">
-                                    <div class="h5 m-0">@upload.Artist.FullName</div>
+                                    <a class="h5 m-0">@upload.Artist.FullName</a>
                                     <div class="h7 text-muted">@upload.Artist.Nickname</div>
                                 </div>
                             </div>
@@ -139,9 +139,10 @@
 
                     </div>
                     <div class="card-body">
-                        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>@upload.Created.ToShortTimeString()</div>
+
                         <a class="card-link" href="#">
                             <h5 class="card-title">@upload.Title</h5>
+                            <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>@upload.Created.ToShortTimeString()</div>
                         </a>
 
                         <p class="card-text">
@@ -150,7 +151,7 @@
                         <img src="@_imageService.DecodeImage(upload.Image, upload.ContentType)" class="img-fluid" />
                     </div>
                     <div class="card-footer">
-                        <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
+                        <a asp-controller="Uploads" asp-action="LikeUnlike" asp-route-Id="@upload.Id" class="card-link"><i class="fa fa-gittip"></i> Like @if (upload.Likes.Any()) { <p>(@upload.Likes.Count)</p> }</a>
                         <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
                         <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
                         @if (userManager.GetUserId(User) == upload.Artist.Id)

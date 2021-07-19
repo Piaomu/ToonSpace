@@ -24,6 +24,7 @@ namespace ToonSpace.Services
             {
             ToonUser artist = await _context.Users
                                             .Include(u => u.Uploads)
+                                                .ThenInclude(u => u.Likes)
                                             .FirstOrDefaultAsync(u => u.Id == artistId);
 
             var uploads = artist?.Uploads?.ToList();
@@ -206,6 +207,9 @@ namespace ToonSpace.Services
             }
                 else
                 {
+                    upload.Likes.Remove(like);
+                    user.Likes.Remove(like);
+                    await _context.SaveChangesAsync();
                     return false;
                 }
             }
