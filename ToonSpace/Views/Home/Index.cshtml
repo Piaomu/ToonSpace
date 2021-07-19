@@ -151,14 +151,20 @@
                         <img src="@_imageService.DecodeImage(upload.Image, upload.ContentType)" class="img-fluid" />
                     </div>
                     <div class="card-footer">
-                        <a asp-controller="Uploads" asp-action="LikeUnlike" asp-route-Id="@upload.Id" class="card-link"><i class="fa fa-gittip"></i> Like @if (upload.Likes.Any()) { <p>(@upload.Likes.Count)</p> }</a>
+                        <a asp-controller="Uploads" asp-action="LikeUnlike" asp-route-Id="@upload.Id" class="card-link"><i class="fa fa-gittip"></i> Like @if (upload.Likes.Any())
+                        {<p>(@upload.Likes.Count)</p>}</a>
                         <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
                         <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
                         @if (userManager.GetUserId(User) == upload.Artist.Id)
                         {
-                            <a asp-action="Delete" asp-controller="Uploads" asp-route-id ="@upload.Id" method="post" class="card-link"><i class="fas fa-minus-circle"></i> Delete</a>
+                            <a asp-action="Delete" asp-controller="Uploads" asp-route-id="@upload.Id" method="post" class="card-link"><i class="fas fa-minus-circle"></i> Delete</a>
                         }
+                        <form asp-action="Create" asp-controller="Comments" method="post">
+                            <input type="hidden" name="MyUploadId" />
+                            <textarea class="form-control" name="Body" rows="3" placeholder="Add a comment..."></textarea>
+                            <button class="btn btn-dark btn-block btn-small Oz" type="submit">Add Comment</button>
 
+                        </form>
                     </div>
                 </div>
                 <!-- Upload /////-->
