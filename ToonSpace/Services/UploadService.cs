@@ -58,6 +58,21 @@ namespace ToonSpace.Services
 
         }
 
+        public async Task<List<Upload>> GetTrendingUploadsAsync()
+        {
+            try
+            {
+                List<Upload> recentUploads = await _context.Upload.OrderByDescending(u => u.Created).Take(20).ToListAsync();
+
+                return recentUploads.OrderByDescending(u => u.Likes.Count).Take(10).ToList();
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine($"*** ERROR *** - Error getting timeline uploads - {ex.Message}");
+                throw;
+            }
+        }
+
         public async Task<List<Upload>> GetUploadsFromFollowing(string artistId)
         {
             try

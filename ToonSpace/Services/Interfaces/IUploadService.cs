@@ -20,6 +20,7 @@ namespace ToonSpace.Services.Interfaces
         public Task<List<Upload>> GetNewestUpload(string artistId);
         public Task<List<Upload>> GetUploadsFromFollowing(string artistId);
         public Task<List<Upload>> GetUploadsFromFollowers(string artistId);
+        public Task<List<Upload>> GetTrendingUploadsAsync();
 
     }
 }
