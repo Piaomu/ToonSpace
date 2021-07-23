@@ -28,18 +28,11 @@
                 @Html.DisplayNameFor(model => model.Visible)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ContentType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MediaStatus)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Artist)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Likes)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -61,16 +54,10 @@
                 @Html.DisplayFor(modelItem => item.Visible)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Image)
+                @Html.DisplayFor(modelItem => item.Artist.FullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ContentType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MediaStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Artist.Id)
+                @item.Likes.Count
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

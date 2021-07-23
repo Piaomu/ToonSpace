@@ -175,14 +175,19 @@
         <div class="col-md-3">
             <div class="card gedf-card">
                 <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                    <h5 class="card-title">Trending Posts</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Hot right now</h6>
                     <p class="card-text">
-                        Some quick example text to build on the card title and make up the bulk of the
-                        card's content.
+                        I dunno what should go here.
                     </p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+                    <ul>
+                        @foreach (Upload upload in Model.TrendingUploads)
+                        {
+                        <li>
+                            <a asp-controller="Uploads" asp-action="Details" asp-route-id="@upload.Id" class="card-link">@upload.Title</a>
+                        </li>
+                        }
+                    </ul>
                 </div>
             </div>
             <div class="card gedf-card">
