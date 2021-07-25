@@ -78,7 +78,8 @@ namespace ToonSpace.Controllers
             if (ModelState.IsValid)
             {
                 upload.Created = DateTime.Now;
-                //upload.ArtistId = _userManager.GetUserId(User);
+                upload.ArtistId = _userManager.GetUserId(User);
+                upload.Visible = true;
                 upload.Image = await _imageService.EncodeImageAsync(upload.ImageFile);
                 upload.ContentType = _imageService.ContentType(upload.ImageFile);
 

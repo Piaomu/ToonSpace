@@ -30,7 +30,7 @@ namespace ToonSpace.Models
         public byte[] Image { get; set; }
         public string ContentType { get; set; }
 
-        [Display(Name = "Select Genre")]
+        [Display(Name = "Public or Private")]
         public MediaStatus MediaStatus { get; set; }
 
         //Navigational Properties
