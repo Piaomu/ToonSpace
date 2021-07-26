@@ -58,6 +58,19 @@ namespace ToonSpace.Controllers
             return View(model);
         }
 
+        //[HttpGet]
+        //[Authorize]
+        //public async Task<IActionResult> ArtistPage()
+        //{
+        //    var artistId = await _uploadService.Get
+        //    ArtistPageViewModel model = new()
+        //    {
+        //        Followers = await _relationService.GetFollowersAsync(artistId),
+        //        Following = await _relationService.GetFollowingAsync(artistId),
+        //        TrendingUploads = await _uploadService.GetTrendingUploadsAsync()
+        //    };
+        //    return View(model);
+        //}
         public IActionResult Privacy()
         {
             return View();
