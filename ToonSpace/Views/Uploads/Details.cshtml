@@ -1,12 +1,17 @@
 ﻿@model ToonSpace.Models.Upload
 @using ToonSpace.Services
+@using ToonSpace.Services.Interfaces 
 @using Microsoft.AspNetCore.Identity 
 @inject IImageService _imageService
 @inject UserManager<ToonUser> userManager
+@inject IRelationService _relationService
 
 
 @{
     ViewData["Title"] = "Details";
+
+    string myId = userManager.GetUserId(User);
+    string artistId = Model.Artist.Id;
 }
 
 <div class="container-fluid">
@@ -19,7 +24,14 @@
                 <div class="cardbox-heading">
                     <!-- START dropdown-->
                     <div class="dropdown float-right">
-                        <a><i class="fas fa-plus"></i> Follow @Model.Artist.FullName</a>
+                        @if (await _relationService.AmIFollowingUser(myId, artistId) == false)
+                        {
+                            <a asp-action="UploadDetailsFollowUser" asp-route-artistId="@Model.Artist.Id" class="btn text-primary"><i class="fas fa-plus"></i> Follow @Model.Artist.FullName</a>
+                        }
+                        else
+                        {
+                            <a class="btn text-primary"><i class="fas fa-minus-circle"></i> Unfollow @Model.Artist.FullName</a>
+                        }
                         <button class="btn btn-flat btn-flat-icon" type="button" data-toggle="dropdown" aria-expanded="false">
                             <em class="fa fa-ellipsis-h"></em>
                         </button>

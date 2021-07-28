@@ -50,14 +50,39 @@ namespace ToonSpace.Controllers
             }
 
             var upload = await _context.Upload
-                .Include(u => u.Artist)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                        .Include(u => u.Artist)
+                        .FirstOrDefaultAsync(m => m.Id == id);
             if (upload == null)
             {
                 return NotFound();
             }
 
             return View(upload);
+        }
+
+        public async Task<IActionResult> UploadDetailsFollowUser(string artistId)
+        {
+            Upload upload = await _context.Upload
+                            .Include(u => u.Artist)
+                            .FirstOrDefaultAsync(u => u.Artist.Id == artistId);
+
+            if (artistId == null)
+            {
+                return NotFound();
+            }
+
+            string myId = _userManager.GetUserId(User);
+
+            try
+            {
+                await _relationService.FollowUser(myId, artistId);
+
+               return RedirectToAction("Details", new { id = upload.Id });
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         // GET: Uploads/Create
