@@ -1,10 +1,11 @@
 ﻿@model ToonSpace.Models.ViewModels.ArtistPageViewModel
 @using ToonSpace.Services
+@using ToonSpace.Services.Interfaces
 @using Microsoft.AspNetCore.Identity
 @inject IImageService _imageService
 @inject UserManager<ToonUser> userManager
-@inject UploadService _uploadService
-@inject RelationService _relationService
+@inject IUploadService _uploadService
+@inject IRelationService _relationService
 
 @{
     ViewData["Title"] = "Artist's Page";

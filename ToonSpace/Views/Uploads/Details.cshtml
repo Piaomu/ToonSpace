@@ -34,7 +34,7 @@
                             <a href=""><img class="img-fluid rounded-circle m-2" style="height: 100px; width: 100px" src="@_imageService.DecodeImage(Model.Artist.ImageData, Model.Artist.ContentType)" alt="User"></a>
                         </div>
                         <div class="media-body">
-                            <a class="m-0">@Model.Artist.FullName</a>
+                            <a class="m-0" asp-controller="Home" asp-action="ArtistPage" asp-route-id="@Model.Artist.Id">@Model.Artist.FullName</a>
                             <br />
                             <small><span class="text-muted"><i class="icon ion-md-time"></i>Posted: @Model.Created.ToShortTimeString()</span></small>
                         </div>
