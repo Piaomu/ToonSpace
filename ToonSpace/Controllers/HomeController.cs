@@ -67,7 +67,10 @@ namespace ToonSpace.Controllers
             {
                 Followers = await _relationService.GetFollowersAsync(id),
                 Following = await _relationService.GetFollowingAsync(id),
-                TrendingUploads = await _uploadService.GetTrendingUploadsAsync()
+                TrendingUploads = await _uploadService.GetTrendingUploadsAsync(),
+                RecentUploads = await _uploadService.GetNewestUploads(id),
+                ArtistUploads = await _uploadService.GetAllUploadsByArtist(id),
+                Artist = await _userManager.FindByIdAsync(id)
             };
             return View(model);
         }
