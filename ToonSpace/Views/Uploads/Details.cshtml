@@ -24,13 +24,16 @@
                 <div class="cardbox-heading">
                     <!-- START dropdown-->
                     <div class="dropdown float-right">
-                        @if (await _relationService.AmIFollowingUser(myId, artistId) == false)
+                        @if (myId != artistId)
                         {
-                            <a asp-action="UploadDetailsFollowUser" asp-route-artistId="@Model.Artist.Id" class="btn text-primary"><i class="fas fa-plus"></i> Follow @Model.Artist.FullName</a>
-                        }
-                        else
-                        {
-                            <a class="btn text-primary"><i class="fas fa-minus-circle"></i> Unfollow @Model.Artist.FullName</a>
+                            @if (await _relationService.AmIFollowingUser(myId, artistId) == false)
+                            {
+                                <a asp-action="UploadDetailsFollowUser" asp-route-artistId="@Model.Artist.Id" class="btn text-primary"><i class="fas fa-plus"></i> Follow @Model.Artist.FullName</a>
+                            }
+                            else
+                            {
+                                <a asp-action="UploadDetailsUnfollowUser" asp-route-artistId="@Model.Artist.Id" class="btn text-primary"><i class="fas fa-minus-circle"></i> Unfollow @Model.Artist.FullName</a>
+                            }
                         }
                         <button class="btn btn-flat btn-flat-icon" type="button" data-toggle="dropdown" aria-expanded="false">
                             <em class="fa fa-ellipsis-h"></em>

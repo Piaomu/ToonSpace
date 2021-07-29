@@ -51,6 +51,10 @@ namespace ToonSpace.Controllers
 
             var upload = await _context.Upload
                         .Include(u => u.Artist)
+                            .ThenInclude(u =>u.Followers)
+                        .Include(u => u.Artist)
+                            .ThenInclude(u => u.Following)
+                        .Include(u =>u.Likes)
                         .FirstOrDefaultAsync(m => m.Id == id);
             if (upload == null)
             {
@@ -78,6 +82,34 @@ namespace ToonSpace.Controllers
                 await _relationService.FollowUser(myId, artistId);
 
                return RedirectToAction("Details", new { id = upload.Id });
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<IActionResult> UploadDetailsUnfollowUser(string artistId)
+        {
+            Upload upload = await _context.Upload
+                            .Include(u => u.Artist)
+                                .ThenInclude(u => u.Followers)
+                            .Include(u => u.Artist)
+                                .ThenInclude(u => u.Following)
+                            .FirstOrDefaultAsync(u => u.Artist.Id == artistId);
+
+            if (artistId == null)
+            {
+                return NotFound();
+            }
+
+            string myId = _userManager.GetUserId(User);
+
+            try
+            {
+                await _relationService.UnfollowUser(myId, artistId);
+
+                return RedirectToAction("Details", new { id = upload.Id });
             }
             catch
             {

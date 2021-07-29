@@ -21,13 +21,20 @@ namespace ToonSpace.Services
 
         public async Task<bool> FollowUser(string myId, string toonUserId)
         {
+            //ToonUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == myId);
+            //ToonUser toonUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == toonUserId);
+
+            //user?.Following.Add(toonUser);
+            //toonUser?.Followers.Add(user);
+            //await _context.SaveChangesAsync();
+            //return true;
             try
             {
                 ToonUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == myId);
-                if(user is not null)
+                if (user is not null)
                 {
                     ToonUser toonUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == toonUserId);
-                    if(!await AmIFollowingUser(myId, toonUserId))
+                    if (!await AmIFollowingUser(myId, toonUserId))
                     {
                         try
                         {
@@ -36,7 +43,7 @@ namespace ToonSpace.Services
                             await _context.SaveChangesAsync();
                             return true;
                         }
-                        catch(Exception)
+                        catch (Exception)
                         {
                             throw;
                         }
@@ -51,7 +58,7 @@ namespace ToonSpace.Services
                     return false;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine($"*** ERROR *** - Error following user. --> {ex.Message}");
                 return false;
@@ -60,14 +67,18 @@ namespace ToonSpace.Services
 
         public async Task<List<ToonUser>> GetFollowersAsync(string myId)
         {
-            ToonUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == myId);
+            ToonUser user = await _context.Users
+                            .Include(u =>u.Followers)
+                            .FirstOrDefaultAsync(u => u.Id == myId);
 
             return user?.Followers.ToList();
         }
 
         public async Task<List<ToonUser>> GetFollowingAsync(string myId)
         {
-            ToonUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == myId);
+            ToonUser user = await _context.Users
+                            .Include(u => u.Following)
+                            .FirstOrDefaultAsync(u => u.Id == myId);
 
             return user?.Following.ToList();
         }
