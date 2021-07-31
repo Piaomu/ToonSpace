@@ -17,7 +17,7 @@
                     <div class="text-center">
                         <img src="@_imageService.DecodeImage(Model.User.ImageData, Model.User.ContentType)" class="img-fluid" alt="Profile Pic">
                     </div>
-                    <div class="h5">@Model.User.FullName</div>
+                    <a class="h5" asp-action="ArtistPage" asp-controller="Home" asp-route-Id="@Model.User.Id">@Model.User.FullName</a>
                     <hr />
                     <div class="h7 text-muted">@Model.User.Nickname</div>
                     <div class="h7">

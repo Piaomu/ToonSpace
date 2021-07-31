@@ -46,23 +46,8 @@
                         </a>
                     </li>
                     <li class="hidden">
-                        <a href="#" title="behance link">
-                            <span class="fa fa-behance-square fs35 text-primary"></span>
-                        </a>
-                    </li>
-                    <li class="hidden">
                         <a href="#" title="pinterest link">
                             <span class="fa fa-pinterest-square fs35 text-danger-light"></span>
-                        </a>
-                    </li>
-                    <li class="hidden">
-                        <a href="#" title="linkedin link">
-                            <span class="fa fa-linkedin-square fs35 text-info"></span>
-                        </a>
-                    </li>
-                    <li class="hidden">
-                        <a href="#" title="github link">
-                            <span class="fa fa-github-square fs35 text-dark"></span>
                         </a>
                     </li>
                     <li class="">
@@ -87,51 +72,37 @@
 </div>
 
 <div class="row">
+    <!--Left Column-->
     <div class="col-md-4">
         <div class="panel">
             <div class="panel-heading">
                 <span class="panel-icon">
                     <i class="fa fa-star"></i>
                 </span>
-                <span class="panel-title"> User Popularity</span>
+                <span class="panel-title">@Model.Artist.FirstName's Followers</span>
             </div>
             <div class="panel-body pn">
                 <table class="table mbn tc-icon-1 tc-med-2 tc-bold-last">
                     <thead>
                         <tr class="hidden">
-                            <th class="mw30">#</th>
-                            <th>First Name</th>
-                            <th>Revenue</th>
+                            <th class="mw30"></th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <span class="fa fa-desktop text-warning"></span>
-                            </td>
-                            <td>Television</td>
-                            <td>
-                                <i class="fa fa-caret-up text-info pr10"></i>$855,913
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="fa fa-microphone text-primary"></span>
-                            </td>
-                            <td>Radio</td>
-                            <td>
-                                <i class="fa fa-caret-down text-danger pr10"></i>$349,712
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="fa fa-newspaper-o text-info"></span>
-                            </td>
-                            <td>Newspaper</td>
-                            <td>
-                                <i class="fa fa-caret-up text-info pr10"></i>$1,259,742
-                            </td>
-                        </tr>
+                        @foreach (ToonUser follower in Model.Followers)
+                        {
+                            <tr>
+                                <td>
+                                    <span class="fa fa-desktop text-warning"></span>
+                                </td>
+                                <td>@follower.FullName</td>
+                                <td>
+                                    <i class="fa fa-caret-up text-info pr10"></i>$855,913
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -196,9 +167,24 @@
             </div>
         </div>
     </div>
+    <!--./Left Column-->
     <div class="col-md-8">
 
-        <div class="tab-block">
+        <div class="carousel">
+            <div class="image-container" id="imgs">
+                @foreach (Upload upload in Model.ArtistUploads)
+                {
+                    <img scr="@_imageService.DecodeImage(upload.Image, upload.ContentType)" />
+                }
+            </div>
+            <div class="buttons-container">
+                <button class="button" id="left">Prev</button>
+                <button class="button" id="right">Next</button>
+            </div>
+        </div>
+
+
+        @*<div class="tab-block">
             <ul class="nav nav-tabs">
                 <li class="active">
                     <a href="#tab1" data-toggle="tab">Activity</a>
@@ -299,6 +285,10 @@
                 <div id="tab3" class="tab-pane"></div>
                 <div id="tab4" class="tab-pane"></div>
             </div>
-        </div>
+        </div>*@
     </div>
 </div>
+
+@section Scripts{ 
+    <script src="~/js/ArtistPage.js"></script>
+}
