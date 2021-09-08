@@ -94,13 +94,7 @@
                         @foreach (ToonUser follower in Model.Followers)
                         {
                             <tr>
-                                <td>
-                                    <span><img scr="@_imageService.DecodeImage(follower.ImageData, follower.ContentType)" /></span>
-                                </td>
-                                <td>@follower.FullName</td>
-                                <td>
-                                    <i class="fa fa-caret-up text-info pr10"></i>$855,913
-                                </td>
+                                <td><a asp-action="ArtistPage" asp-route-id="@follower.Id">@follower.FullName</a></td>
                             </tr>
                         }
                     </tbody>
@@ -170,7 +164,18 @@
     <!--./Left Column-->
     <div class="col-md-8">
 
-        <div class="carousel">
+        <div id="art-carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                @foreach (Upload upload in Model.ArtistUploads)
+                {
+                    <div class="carousel-item active">
+                        <img scr="@_imageService.DecodeImage(upload.Image, upload.ContentType)" class="d-block w-100">
+                    </div>
+                }
+            </div>
+        </div>
+
+        @*<div class="carousel">
             <div class="image-container" id="imgs">
                 @foreach (Upload upload in Model.ArtistUploads)
                 {
@@ -181,7 +186,7 @@
                 <button class="button" id="left">Prev</button>
                 <button class="button" id="right">Next</button>
             </div>
-        </div>
+        </div>*@
 
 
         @*<div class="tab-block">
