@@ -79,7 +79,7 @@
                 <span class="panel-icon">
                     <i class="fa fa-star"></i>
                 </span>
-                <span class="panel-title">@Model.Artist.FirstName's Followers</span>
+                <span class="panel-title"><a>@Model.Artist.FirstName's Followers</a></span>
             </div>
             <div class="panel-body pn">
                 <table class="table mbn tc-icon-1 tc-med-2 tc-bold-last">
@@ -106,19 +106,10 @@
                 <span class="panel-icon">
                     <i class="fa fa-trophy"></i>
                 </span>
-                <span class="panel-title"> My Skills</span>
+               
+                <span class="panel-title"> <a asp-action="Following" asp-route-id="@Model.Artist.Id">Following</a></span>
             </div>
             <div class="panel-body pb5">
-                <span class="label label-warning mr5 mb10 ib lh15">Default</span>
-                <span class="label label-primary mr5 mb10 ib lh15">Primary</span>
-                <span class="label label-info mr5 mb10 ib lh15">Success</span>
-                <span class="label label-success mr5 mb10 ib lh15">Info</span>
-                <span class="label label-alert mr5 mb10 ib lh15">Warning</span>
-                <span class="label label-system mr5 mb10 ib lh15">Danger</span>
-                <span class="label label-info mr5 mb10 ib lh15">Success</span>
-                <span class="label label-success mr5 mb10 ib lh15">Ui Design</span>
-                <span class="label label-primary mr5 mb10 ib lh15">Primary</span>
-
             </div>
         </div>
         <div class="panel">

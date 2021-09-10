@@ -1,4 +1,4 @@
-﻿@model ToonSpace.Models.ViewModels.FollowersViewModel
+﻿@model ToonSpace.Models.ViewModels.FollowingViewModel
 @using ToonSpace.Services
 @using ToonSpace.Services.Interfaces
 @using Microsoft.AspNetCore.Identity
@@ -8,3 +8,25 @@
 @inject IRelationService _relationService
 @{
 }
+
+<div class="container-fluid" style="background: red;">
+    <div class="row">
+        <div class="col">
+            <div>
+                <h1>Following</h1>
+            </div>
+            @foreach (ToonUser user in Model.Following)
+            {
+        <div class="col-lg-3 mx-auto">
+            <div class="card h-100 shadow">
+                <a asp-action="ArtistPage" asp-route-id="@user.Id">@user.FullName</a>
+                <div class="card-img-bottom">
+                    <img class="img-fluid" src="@_imageService.DecodeImage(user.ImageData, user.ContentType)" />
+                </div>
+            </div>
+        </div>
+
+            }
+        </div>
+    </div>
+</div>

@@ -74,6 +74,20 @@ namespace ToonSpace.Controllers
             };
             return View(model);
         }
+
+        [HttpGet]
+        [Authorize]
+
+        public async Task<IActionResult> Following(string id)
+        {
+            FollowingViewModel model = new()
+            {
+                Following = await _relationService.GetFollowingAsync(id),
+                Artist = await _userManager.FindByIdAsync(id)
+            };
+            return View(model);
+        }
+
         public IActionResult Privacy()
         {
             return View();
